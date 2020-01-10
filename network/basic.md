@@ -1,0 +1,2 @@
+- http协议get post的区别
+- tcp三次握手, 四次挥手
