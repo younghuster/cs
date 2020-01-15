@@ -78,6 +78,17 @@ javac 9-internal
 - Java基本数据类型都是signed,不存在unsigned类型
 
 
+## 基本数据类型的封装
+- Integer
+- Double
+- Long
+- Float
+- Short
+- Byte
+- Character
+- Boolean
+
+
 ## 数组
 - 定义
   ``` java
@@ -105,7 +116,7 @@ javac 9-internal
     - charAt(): 返回字符所在的索引
 
 - **StringBuffer**
-  - mutable, 线程安全, 适用于**多线程**
+  - mutable, 线程安全, 适用于**多线程**(很多method加了**synchronized**)
   - 通常用于字符串修改: 插入、删除、追加等
   - 定义
     ```java
@@ -184,6 +195,13 @@ public B extends A {
   - final
 
 ### 多态
+- overload
+  - 同一个类, method名相同, 但signature不同
+
+- override
+  - 子类通过继承覆盖父类(同样的signature)
+  - final/static/private method不能被override
+
 
 ## 对象
 ```java
@@ -251,6 +269,7 @@ s和s2本身是对象引用，均指向在Heap中分配的对象.
 
 - finalize
   - gc回收前调用对象的finalize()方法
+  - Called by the garbage collector on an object when garbage collection determines that there are no more references to the object.
 
 
 
@@ -266,7 +285,7 @@ s和s2本身是对象引用，均指向在Heap中分配的对象.
 
 ### ==
 - 基本数据类型: 比较值是否相等
-- 对象: 比较是否是同一个对象的引用
+- 对象: 比较是否是同一个对象的引用(对象的内存地址)
 
 ### equals
 equals()是Object类的一个方法，设计目的是让派生类去override equals()方法。
