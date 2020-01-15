@@ -211,6 +211,18 @@ String s2 = s;
 
 s和s2本身是对象引用，均指向在Heap中分配的对象.
 
+## 抽象类
+- 抽象类和接口都**不能被直接实例化**
+- 抽象类要被子类继承，接口要被子类实现。
+- 接口里面只能对方法进行声明，抽象类既可以对方法进行声明也可以对方法进行实现。
+- 抽象类里面的抽象方法必须全部被子类实现，如果子类不能全部实现，那么子类必须也是抽象类。接口里面的方法也必须全部被子类实现，如果子类不能实现那么子类必须是抽象类。
+- 接口里面的方法只能声明，不能有具体的实现。这说明接口是设计的结果，抽象类是重构的结果。
+- 抽象类里面可以没有抽象方法
+- 如果一个类里面有抽象方法，那么这个类一定是抽象类。
+- 抽象类中的方法都要被实现，所以抽象方法不能是静态的static，也不能是私有的private。
+- 接口（类）可以继承接口，甚至可以继承多个接口。但是类只能继承一个类。
+- 抽象级别（从高到低）：接口>抽象类>实现类。
+
 ## 接口
 - 定义
   ```
@@ -225,13 +237,7 @@ s和s2本身是对象引用，均指向在Heap中分配的对象.
   }
   ```
 
-## 关键字
-- 继承: **extends**
-- 实现接口: **implements**
-- super: 父类
-- this: 当前对象
-
-### 泛型
+## 泛型
 - Class<?>
   - 类型通配符
   - 类型实参, 不是类型形参
@@ -246,17 +252,25 @@ s和s2本身是对象引用，均指向在Heap中分配的对象.
     - c++ template 可以传入基本数据类型, java只是传入类类型(class type)
     - c++ template的类型参数T可以用于静态变量和方法, java generic不行
 
+## 反射
 
-
+## 关键字
+- 继承: **extends**
+- 实现接口: **implements**
+- super: 父类
+- this: 当前对象
 
 ### volatile
 - 保证可见性
 - 保证有序性(禁止指令重排)
 
 ### synchronized
-- 保证原子性
-- 保证可见性
-- 保证有序性
+- 保证
+  - 保证原子性
+  - 保证可见性
+  - 保证有序性
+
+- [ ] 实现原理
 
 ### final/finally/finalize的区别
 - final
@@ -271,12 +285,11 @@ s和s2本身是对象引用，均指向在Heap中分配的对象.
   - gc回收前调用对象的finalize()方法
   - Called by the garbage collector on an object when garbage collection determines that there are no more references to the object.
 
-
-
-# 线程
-# 网络
-# IO
 # openjdk源码实现
+
+## 异常
+
+## 集合
 - hashmap
 - ConcurrentHashMap 在Java7和Java8中的区别？为什么Java8并发效率更好？什么情况下用HashMap，什么情况用ConcurrentHashMap？
 - AtomicInteger怎么实现原子修改的
