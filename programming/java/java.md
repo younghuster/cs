@@ -92,7 +92,8 @@ javac 9-internal
     ```
 
 ## 字符串
-- String: immutable
+- **String**
+  - immutable
   - 定义
     ```java
     String str = "Hello, World!"
@@ -103,7 +104,8 @@ javac 9-internal
     - length(): 返回字符的个数
     - charAt(): 返回字符所在的索引
 
-- StringBuffer: mutable, 线程安全, 适用于多线程
+- **StringBuffer**
+  - mutable, 线程安全, 适用于**多线程**
   - 通常用于字符串修改: 插入、删除、追加等
   - 定义
     ```java
@@ -111,7 +113,8 @@ javac 9-internal
     ```
   - 方法
 
-- StringBuilder: mutable, 线程不安全，　适用于单线程　
+- **StringBuilder**
+  - mutable, 线程不安全，适用于**单线程**
 
 
 - 区别
@@ -209,12 +212,24 @@ s和s2本身是对象引用，均指向在Heap中分配的对象.
 - 实现接口: **implements**
 - super: 父类
 - this: 当前对象
+
+### 泛型
 - Class<?>
-- Class<T>: 模板?
+  - 类型通配符
+  - 类型实参, 不是类型形参
+
+- Class<T>
   - 泛型类
   - 泛型接口
   - 泛型方法
   - [Java 泛型和C++的模板的区别?](https://www.zhihu.com/question/33304378)
+    - c++ template必须传入类型进行实例化, java generic不能实例化, 只能类型擦除
+    - c++ template传入类型不同, 实例类型也不同. java generic的所有实例都是同一类型, 类型参数会在**运行时**擦除
+    - c++ template 可以传入基本数据类型, java只是传入类类型(class type)
+    - c++ template的类型参数T可以用于静态变量和方法, java generic不行
+
+
+
 
 ### volatile
 - 保证可见性
