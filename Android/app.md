@@ -2,7 +2,7 @@
 
 - Activity
 - Service
-- Broadcast
+- BroadcastReceiver
 - ContentProvider
 
 ## Activity
@@ -15,6 +15,12 @@
 
 - 生命周期
 ![Activity](http://ww1.sinaimg.cn/large/005Kyrj9ly1gaxn8z37a3j30f20iudg0.jpg)
+
+
+  成对调用
+  - onCreate() / onDestory()
+  - onStart() / onStop()
+  - onResume() / onPause()
 
 - 4种状态
 
@@ -74,6 +80,9 @@
 ![Service](http://ww1.sinaimg.cn/large/005Kyrj9ly1gay6jimw3kj30co0ekmyj.jpg)
 
 
+如果service是被开启的，那么它的活动生命周期和整个生命周期一同结束。
+如果service是被绑定的，它们它的活动生命周期是在onUnbind()方法返回后结束。
+
 - 分类
   - 运行地点
     - startService() 启动本地服务Local Service
@@ -92,5 +101,42 @@
 - Service和Thread
   - 一般会将 Service 和 Thread联合着用，即在Service中再创建一个子线程（工作线程）去处理耗时操作逻辑
 
-## Broadcast
+## BroadcastReceiver
+- 广播接收器
+  - Android 广播分为两个角色：广播发送者、广播接收者
+  - 监听 / 接收 应用 App 发出的广播消息，并 做出响应
+  - 广播广泛应用在应用程序之间**传递信息**的机制，使用了设计模式中的**观察者模式**，通过**intent**可以传递数据。
+
+- 应用场景
+  - **同一个app**具有多个进程**不同组件**之间的消息通信
+  - **不同的app之间组件**的信息通信
+
+- 分类
+  - 普通广播（Normal Broadcast）
+  - 系统广播（System Broadcast）
+  - 有序广播（Ordered Broadcast）
+  - 粘性广播（Sticky Broadcast）
+  - App应用内广播（Local Broadcast）优点：高效、安全，其实它内部是通过Handler实现的发送message实现的。
+
+- 注册方式
+  - 静态注册：在AndroidManifest.xml里通过标签声明，注册完成就一直运行
+  - 动态注册：在代码中调用Context.registerReceiver（）方法，跟随activity的生命周期。
+
+- 内部机制
+
+  - 自定义BroadcastReceiver，并override onReceive()方法
+  - 通过Binder机制向AMS进行注册
+  - 广播发送者通过Binder机制向AMS发送广播
+  - AMS查找符合相应条件的BroadcastReceiver的BroadcastReceiver，将广播发送到相应的消息队列中
+  - 消息循环执行拿到此广播，回调BroadcastReceiver的onReceive（)方法
+
+
+![BroadcastReceiver](http://ww1.sinaimg.cn/large/005Kyrj9ly1gay7os6iegj30n20aptam.jpg)
+
+- 使用
+  - 继承BroadcastReceivre基类
+  - override抽象方法onReceive()方法
+  - 广播可能会导致内存泄露
+
+
 ## ContentProvider
