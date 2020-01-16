@@ -20,7 +20,7 @@
 
 |状态|解释|
 |----|----|
-|running|表明Activity处于活动（完全可见）状态，用户可以与屏幕进行交互，此时，Activity处于栈顶|
+|active/running|表明Activity处于活动（完全可见）状态，用户可以与屏幕进行交互，此时，Activity处于栈顶|
 |paused|表明Activity处于失去焦点的状态（例如：被非全屏的的Activity覆盖），此时用户无法与该Activity进行交互|
 |stopped|表明activity处于不可见的状态（例如：被另一个Activity完全覆盖)|
 |killed|表明Activity被系统回收了|
@@ -54,17 +54,32 @@
 
 
 - 启动模式
+
 |launch mode|说明|
-|----------|----|
+|-----------|----|
 |standard|默认的启动模式，每次启动Activity的时候都会创建一个新的实例。不会复用Activity，对内存消耗较大|
 |singleTop|栈顶复用模式，如果在任务的栈顶正好存在该Activity的实例， 就重用该实例，否者就会创建新的实例并放入栈顶(即使栈中已经存在该Activity实例，只要不在栈顶，都会创建实例)|
 |singletask|栈内复用模式, 如果在栈中已经有该Activity的实例，就重用该实例(会调用实例的onNewIntent())。重用时，会让该实例回到栈顶，因此在它上面的实例将会被移除栈。如果栈中不存在该实例，将会创建新的实例放入栈中|
 |singleInstance|单一实例，独享一个任务栈，整个手机操作系统里面只有一个实例存在。用的较少|
 
 ## Service
-- Service是一种能在后台执行耗时任务的没有界面显示的组件
-- Service运行在主线程(UI线程)的
-- Service本身不能做耗时操作，而是通过子线程去完成
+- [Google官方](https://developer.android.com/guide/components/services?hl=zh-cn)
+- Service是一种能在**后台执行耗时任务**的没有界面显示的组件
+- Service运行在**主线程**(UI线程)的
+- Service本身不能做耗时操作，而是通过**子线程**去完成
+
+
+- 生命周期
+
+![Service](http://ww1.sinaimg.cn/large/005Kyrj9ly1gay6jimw3kj30co0ekmyj.jpg)
+
+
+- 两种启动方式
+  - startService() 启动本地服务Local Service
+  - bindService() 启动远程服务Remote Service
+
+- 如要创建服务，必须创建 Service 的子类
+
 
 ## Broadcast
 ## ContentProvider
