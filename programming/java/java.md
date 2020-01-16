@@ -224,6 +224,10 @@ public B extends A {
 
 总结：首先需要知道为什么会有内部类，什么时候应该使用内部类，我们再去讨论，为什么 Java 的设计者们又将内部类设计为静态与非静态，这样就很清晰了
 
+
+## 匿名类
+
+
 ## 对象
 ```java
 String s = new String("Hello, world");
@@ -314,6 +318,80 @@ s和s2本身是对象引用，均指向在Heap中分配的对象.
 - hashmap
 - ConcurrentHashMap 在Java7和Java8中的区别？为什么Java8并发效率更好？什么情况下用HashMap，什么情况用ConcurrentHashMap？
 - AtomicInteger怎么实现原子修改的
+
+### Set
+- Set代表无序, 不可重复, 独一无二的集合；
+- Set是个**interface**
+- libcore/ojluni/src/main/java/java/util/Set.java
+
+#### HashSet
+
+- libcore/ojluni/src/main/java/java/util/HashSet.java
+- HashSet实现了Set接口
+- HashSet**内部使用HashMap**来实现
+- HashSet**线程不安全**, 需要在外面调用时保证
+
+- LinkedHashSet
+  - 是HashSet的子类
+  - 根据元素的hashCode值来决定元素的存储位置，同时使用链表维护元素的次序，使得元素是以插入的顺序来保存的
+
+
+#### TreeSet
+- TreeSet可以确保集合元素处于**排序**状态
+
+
+#### EnumSet
+- EnumSet中的所有元素都必须是指定枚举类型的枚举值
+- EnumSet的集合元素也是有序的
+
+
+### List
+- List代表有序、重复的集合；
+
+#### ArrayList
+- 线程不安全
+- 实现: 数组
+
+
+#### vector
+- 线程安全
+- 实现: 数组
+
+
+#### LinkedList
+- 实现: 链表
+
+### Map
+- Map代表具有映射关系的集合
+- Map是个接口
+
+
+#### Hashtable
+- Hashtable是一个线程安全的Map实现
+- 数组+链表
+
+#### HashMap
+- 线程不安全
+
+#### LinkedHashMap
+- LinkedHashMap=散列表+循环双向链表
+
+#### TreeMap
+- TreeMap 是一个有序的key-value集合，它是通过**红黑树**实现的
+
+#### ConcurrentHashMap
+- java 7, 分段的数组+链表
+- Java 8后, 数组+链表/红黑二叉树。
+  - Java 8在链表长度超过一定阈值（8）时将链表（寻址时间复杂度为O(N)）转换为红黑树（寻址时间复杂度为O(log(N))）
+
+### Queue
+- Queue代表一种队列集合实现
+
+#### PriorityQueue
+- 线程不安全
+
+#### PriorityBlockingQueue
+- 线程安全
 
 ## ==和equals的区别
 
