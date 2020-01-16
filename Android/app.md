@@ -154,18 +154,29 @@
   - 在Androidmainfest.xml 中注册
   - 自定义ContentProvider 需要继承 ContentProvider ,并实现增删改查等方法。
 
-
-
 # Looper/Handler
 
 创建主线程时，会自动调用ActivityThread的1个静态的main()
 
 ## Looper
-- src: frameworks/base/core/java/android/os/Looper.java
+- src
+  - frameworks/base/core/java/android/os/Looper.java
 
-```
-static final ThreadLocal<Looper> sThreadLocal = new ThreadLocal<Looper>()
-```
+- 成员变量
+  ```
+  static final ThreadLocal<Looper> sThreadLocal = new ThreadLocal<Looper>();
+  @UnsupportedAppUsage
+  private static Looper sMainLooper;  // guarded by Looper.class
+  private static Observer sObserver;
+
+  @UnsupportedAppUsage
+  final MessageQueue mQueue;
+  final Thread mThread;
+
+  @UnsupportedAppUsage
+  private Printer mLogging;
+  private long mTraceTag;
+  ```
 
 - 创建
   - Looper.prepareMainLooper();
@@ -182,13 +193,14 @@ static final ThreadLocal<Looper> sThreadLocal = new ThreadLocal<Looper>()
 
 
 - 区分
+
   |创建looper|说明|
   |----------|----|
   |Looper.prepareMainLooper();|为主线程创建looper|
   |Looper.prepare()|为当前线程创建looper|
 
 - 注意
-  - 每个线程都有一个looper, 它是ThreadLocal<Looper>, 即与每个线程本身进行绑定, 可通过Looper.myLooper()获取
+  - 每个线程至多一个looper, 它是ThreadLocal<Looper>, 即与每个线程本身进行绑定, 可通过Looper.myLooper()获取
 
 ## Handler
 - src: frameworks/base/core/java/android/os/Handler.java
@@ -204,12 +216,15 @@ static final ThreadLocal<Looper> sThreadLocal = new ThreadLocal<Looper>()
   IMessenger mMessenger;
   ```
 
-- 功能: 发送和处理消息
+- 功能: **发送和处理消息**
 
 - 引入原因
   - 多个线程直接向UI线程发送消息并更新UI不安全
 
-- 使用handler前, 确保相应线程的looper已经存在!
+- 注意
+  - 使用handler前, 确保相应线程的looper已经存在!
+  - 一个线程可以有多个handler
+
 
 - method
   - Handler() constructor: 创建handler实例
