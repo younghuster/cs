@@ -74,12 +74,23 @@
 ![Service](http://ww1.sinaimg.cn/large/005Kyrj9ly1gay6jimw3kj30co0ekmyj.jpg)
 
 
-- 两种启动方式
-  - startService() 启动本地服务Local Service
-  - bindService() 启动远程服务Remote Service
+- 分类
+  - 运行地点
+    - startService() 启动本地服务Local Service
+    - bindService() 启动远程服务Remote Service
+
+  - 运行类型
+    - 前台service
+    - 后台service
+
+  - 功能
+    - 可通信service
+    - 不可通信service
 
 - 如要创建服务，必须创建 Service 的子类
 
+- Service和Thread
+  - 一般会将 Service 和 Thread联合着用，即在Service中再创建一个子线程（工作线程）去处理耗时操作逻辑
 
 ## Broadcast
 ## ContentProvider
