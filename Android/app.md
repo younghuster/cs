@@ -250,3 +250,38 @@
   - 潜在的内存泄露
     - Handler消息队列 还有未处理的消息/正在处理消息时，存在引用关系： “未被处理 / 正处理的消息 -> Handler实例 -> 外部类”
     - 解决方案: 静态内部类
+
+
+# App启动
+
+## Zygote
+### ZygoteInit
+- Zygote进程的启动类(startup class)
+
+- main()
+  - forkSystemServer()
+    - Zygote.forkSystemServer()
+  - zygoteServer.runSelectLoop(abiList)
+
+### ZygoteServer
+- Zygote进程的服务套接字类(server socket class)
+
+## launcher
+- launcher通过**binder**和ss通信
+
+
+## system_server(ss)
+- AMS
+- ss通过**socket**和zygote通信
+
+## zygote
+
+- forkAndSpecialize()
+- 在子进程中, 启动到
+
+## App
+- ActivityThread.java
+
+- main()
+  - 创建主线程的Looper
+
