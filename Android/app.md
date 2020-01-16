@@ -191,6 +191,10 @@
     - Message msg = queue.next();
     - msg.target.dispatchMessage(msg);
 
+  >主线程的死循环一直运行是不是特别消耗CPU资源呢？ 其实不然，这里就涉及到Linux pipe/epoll机制，简单说就是在主线程的MessageQueue没有消息时，便阻塞在loop的queue.next()中的nativePollOnce()方法里，此时主线程会释放CPU资源进入休眠状态，直到下个消息到达或者有事务发生，通过往pipe管道写端写入数据来唤醒主线程工作。这里采用的epoll机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步I/O，即读写是阻塞的。 所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。 Gityuan–Handler(Native层)
+
+  - Looper.myLooper().quit()
+    - 通过退出消息队列来退出Looper
 
 - 区分
 
@@ -221,11 +225,6 @@
 - 引入原因
   - 多个线程直接向UI线程发送消息并更新UI不安全
 
-- 注意
-  - 使用handler前, 确保相应线程的looper已经存在!
-  - 一个线程可以有多个handler
-
-
 - method
   - Handler() constructor: 创建handler实例
     - 通过mLooper = Looper.myLooper();获取looper
@@ -244,3 +243,10 @@
     - handleMessage()
       - 空方法, 子类必须override用来处理消息
 
+
+- 注意
+  - 使用handler前, 确保相应线程的looper已经存在!
+  - 一个线程可以有多个handler
+  - 潜在的内存泄露
+    - Handler消息队列 还有未处理的消息/正在处理消息时，存在引用关系： “未被处理 / 正处理的消息 -> Handler实例 -> 外部类”
+    - 解决方案: 静态内部类
