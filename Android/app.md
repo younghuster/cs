@@ -140,3 +140,22 @@
 
 
 ## ContentProvider
+- 内容提供者
+  - 进程间 进行数据交互 & 共享，即跨进程通信
+  - 允许把自己的应用数据根据需求开放给 其他应用 进行 增、删、改、查，而不用担心因为直接开放数据库权限而带来的安全问题
+  - 本质上是一个标准化的数据管道，它屏蔽了底层的数据管理和服务等细节，以标准化的方式在Android 应用间共享数据
+
+- URI: Uniform Resource Identifier，即统一资源标识符
+- 类
+  - ContentProvider
+  - ContentResolver
+
+- 使用
+  - 在Androidmainfest.xml 中注册
+  - 自定义ContentProvider 需要继承 ContentProvider ,并实现增删改查等方法。
+
+
+
+# Fragment
+
+
