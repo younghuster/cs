@@ -156,6 +156,76 @@
 
 
 
-# Fragment
+# Looper/Handler
 
+创建主线程时，会自动调用ActivityThread的1个静态的main()
+
+## Looper
+- src: frameworks/base/core/java/android/os/Looper.java
+
+```
+static final ThreadLocal<Looper> sThreadLocal = new ThreadLocal<Looper>()
+```
+
+- 创建
+  - Looper.prepareMainLooper();
+    - prepare(false);// 通过prepare()方法创建Looper实例
+      - sThreadLocal.set(new Looper(quitAllowed))
+        - mQueue = new MessageQueue(quitAllowed);
+        - mThread = Thread.currentThread()
+    - sMainLooper = myLooper();
+
+- 使用
+  - Looper.loop(); //for循环里面从mQueue读取message
+    - Message msg = queue.next();
+    - msg.target.dispatchMessage(msg);
+
+
+- 区分
+  |创建looper|说明|
+  |----------|----|
+  |Looper.prepareMainLooper();|为主线程创建looper|
+  |Looper.prepare()|为当前线程创建looper|
+
+- 注意
+  - 每个线程都有一个looper, 它是ThreadLocal<Looper>, 即与每个线程本身进行绑定, 可通过Looper.myLooper()获取
+
+## Handler
+- src: frameworks/base/core/java/android/os/Handler.java
+- 成员变量
+  ```
+  @UnsupportedAppUsage
+  final Looper mLooper;
+  final MessageQueue mQueue;
+  @UnsupportedAppUsage
+  final Callback mCallback;
+  final boolean mAsynchronous;
+  @UnsupportedAppUsage
+  IMessenger mMessenger;
+  ```
+
+- 功能: 发送和处理消息
+
+- 引入原因
+  - 多个线程直接向UI线程发送消息并更新UI不安全
+
+- 使用handler前, 确保相应线程的looper已经存在!
+
+- method
+  - Handler() constructor: 创建handler实例
+    - 通过mLooper = Looper.myLooper();获取looper
+    - 通过mQueue = mLooper.mQueue;获取mQueue
+
+  - sendMessage(): 发送消息
+    - sendMessageDelayed(msg, 0)
+    - sendMessageAtTime(msg, SystemClock.uptimeMillis() + delayMillis)
+    - enqueueMessage(queue, msg, uptimeMillis)
+      - msg.target = this;
+      - queue.enqueueMessage(msg, uptimeMillis)
+
+  - dispatchMessage(): 处理消息
+    - handleCallback(msg)
+    - mCallback.handleMessage(msg)
+    - handleMessage()
+      - 空方法, 子类必须override用来处理消息
 
