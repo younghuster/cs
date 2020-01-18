@@ -93,3 +93,41 @@
 
   - signal_catcher->HandleSigUsr1()
 
+
+
+## FaultManager
+### src
+- art/runtime/fault_handler.h
+- art/runtime/fault_handler.cc
+
+### class
+- FaultManager
+- FaultHandler
+  - NullPointerHandler
+    - NullPointerHandler::NullPointerHandler()
+      - FaultManager::AddHandler()
+        - generated_code_handlers_.push_back(handler)
+    - NullPointerHandler::Action()
+      - art_quick_throw_null_pointer_exception_from_signal()
+  - SuspensionHandler
+  - StackOverflowHandler
+  - JavaStackTraceHandler
+
+### 全局变量
+- FaultManager fault_manager
+
+### 重要函数
+- FaultManager::FaultManager()
+  - sigaction(SIGSEGV, nullptr, &oldaction_)
+
+- FaultManager::Init()
+  - AddSpecialSignalHandlerFn()
+    - InitializeSignalChain()
+    - chains[signal].AddSpecialHandler(sa)
+
+- art_fault_handler()
+  - FaultManager::HandleFault()
+    - generated_code_handlers_
+    - HandleFaultByOtherHandlers()
+    - art_sigsegv_fault()
+
